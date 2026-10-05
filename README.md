@@ -14,6 +14,7 @@ Odpadá listování papírovými šanony se zakázkami při psaní lístečků p
 | Soubor | Co obsahuje |
 |---|---|
 | `index.html` | Celá stránka v jednom souboru – vzhled, logika i data (blok `page-data`). |
+| `navleky.csv` | Stejná data jako tabulka (oddělovač `;`), pro otevření v Excelu. Stránka z něj nečte – zdrojem pravdy je `index.html`. |
 
 ## Data
 
