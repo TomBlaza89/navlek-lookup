@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Návlek – Blažek</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style id="page-style">
+:root{
+  --bg:#0F1524; --paper:#18203A; --ink:#F2F5FA; --muted:#A3ADC2; --line:#2A3452;
+  --cobalt:#8FA8F0; --cobalt-soft:#1F2B52; --amber:#E5B062; --danger:#F08A84;
+  --field:#22366E; --field-line:#3D56A6; --num:#FFFFFF;
+  color-scheme:dark;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.5 Figtree,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+main{max-width:560px;margin:0 auto;padding:28px 18px 60px}
+h1{font:700 30px/1.1 "Bricolage Grotesque",Figtree,system-ui,sans-serif;margin:0 0 4px;letter-spacing:-.01em}
+.sub{color:var(--muted);margin:0 0 24px;font-size:15px}
+.search{display:grid;grid-template-columns:1.6fr 1fr;gap:10px;margin-bottom:22px}
+label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin:0 0 5px}
+input{width:100%;font:500 20px/1.2 Figtree,system-ui,sans-serif;color:var(--num);background:var(--field);border:1.5px solid var(--field-line);border-radius:12px;padding:13px 14px;outline:none}
+input:focus-visible{border-color:var(--cobalt);box-shadow:0 0 0 3px rgba(143,168,240,.35)}
+button{font:600 15px/1 Figtree,system-ui,sans-serif;border-radius:10px;cursor:pointer;padding:12px 16px;border:1.5px solid var(--cobalt);background:var(--cobalt);color:var(--paper)}
+button.ghost{background:transparent;color:var(--cobalt)}
+button.link{background:none;border:none;padding:6px 0;color:var(--muted);font-weight:500;text-decoration:underline;text-underline-offset:3px}
+button:focus-visible{outline:3px solid var(--cobalt-soft);outline-offset:2px}
+.hit{background:var(--paper);border:1.5px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:10px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:6px 14px}
+.hit.solo{border-color:var(--cobalt);padding:22px 20px}
+.hit .art{font-weight:600;font-size:17px}
+.hit .size{color:var(--muted);font-size:15px}
+.hit .note{grid-column:1/-1;color:var(--muted);font-size:13px}
+.str{font:700 34px/1 "Bricolage Grotesque",Figtree,system-ui,sans-serif;color:var(--cobalt);white-space:nowrap;text-align:right;color:var(--num)}
+.hit.solo .str{font-size:64px}
+.str small{display:block;font:500 12px/1.3 Figtree,system-ui,sans-serif;color:var(--muted);margin-top:6px;white-space:normal}
+.del{grid-column:1/-1;justify-self:start;color:var(--danger)}
+.empty{background:var(--paper);border:1.5px dashed var(--line);border-radius:16px;padding:18px;color:var(--muted)}
+.empty p{margin:0 0 12px}
+.add{background:var(--paper);border:1.5px solid var(--line);border-radius:16px;padding:18px;margin-top:22px}
+.add h2{font:700 20px/1.2 "Bricolage Grotesque",Figtree,system-ui,sans-serif;margin:0 0 14px}
+.add .row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.add .row.one{grid-template-columns:1fr}
+.add .actions{display:flex;gap:10px;margin-top:6px}
+.msg{font-size:14px;margin-top:10px;color:var(--amber)}
+#status{margin:-10px 0 14px}
+#status:empty{display:none}
+footer{margin-top:28px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:14px}
+@media (max-width:420px){.hit.solo .str{font-size:52px}.str{font-size:30px}}
+@media (max-width:520px){.search{grid-template-columns:1fr}}
+input::placeholder{font-size:16px;color:#B9C6EA;opacity:.75}
+@media (prefers-reduced-motion:no-preference){.hit.solo{animation:pop .18s ease-out}@keyframes pop{from{transform:scale(.98);opacity:.6}to{transform:none;opacity:1}}}
+</style>
+</head>
+<body>
+<script type="application/json" id="page-data">[{"a":"112-19-001","s":"6 mm","t":"30x10","n":"Nirvana 09/2026"},
+{"a":"112-03-010","s":"17 mm","t":"6x6","n":"Coin rose. Nirvana 09/2026"},
+{"a":"112-7582","s":"12 mm","t":"12x6","n":"Nirvana 09/2026"},
+{"a":"112-49-013","s":"3x6 mm","t":"50x12","n":"Heishi. Nirvana 09/2026"},
+{"a":"112-49-203","s":"5 mm","t":"50x6","n":"Nirvana 09/2026"},
+{"a":"112-19-001","s":"8 mm","t":"20x6","n":"Nirvana 09/2026"},
+{"a":"112-79-207","s":"14 mm","t":"12x6 / 10x6","n":"12x6 podle Nirvana 09/2026, 10x6 podle Nirvana 08/2025"},
+{"a":"112-49-002","s":"9x5 mm","t":"16x6","n":"Nirvana 09/2026"},
+{"a":"112-03-012","s":"22 mm","t":"6x6","n":"Flaming heart. Nirvana 09/2026"},
+{"a":"112-19-803","s":"8 mm","t":"20x6","n":"Nirvana 09/2026"},
+{"a":"112-00-285","s":"5x8 mm","t":"25x6","n":"Nirvana 09/2026"},
+{"a":"112-02-012","s":"14 mm","t":"10x6","n":"Nirvana 09/2026"},
+{"a":"112-7582","s":"9 mm","t":"16x6","n":"Hawai flower. Nirvana 09/2026"},
+{"a":"112-30-010","s":"19x12 mm","t":"6x6","n":"Nirvana 09/2026"},
+{"a":"112-01-243","s":"12x16 mm","t":"15x6","n":"Double knot. Nirvana 09/2026"},
+{"a":"112-19-803","s":"10 mm","t":"15x6","n":"Nirvana 09/2026"},
+{"a":"112-88-960","s":"9 mm","t":"15x6","n":"Nirvana 09/2026"},
+{"a":"112-03-002","s":"15x18 mm","t":"8x6","n":"Shell. Nirvana 09/2026"},
+{"a":"111-19-001","s":"8 mm","t":"20x6","n":"Nirvana 09/2026"},
+{"a":"112-59-007","s":"4x4 mm","t":"40x6","n":"Nirvana 08/2025"},
+{"a":"112-49-002","s":"14x7 mm","t":"10x6","n":"Nirvana 08/2025"},
+{"a":"112-19-210","s":"10 mm","t":"15x6","n":"Nirvana 08/2025"},
+{"a":"112-69-206","s":"4x6 mm","t":"50x6","n":"Nirvana 08/2025"},
+{"a":"112-69-206","s":"5x7 mm","t":"50x6","n":"Nirvana 08/2025"},
+{"a":"112-69-206","s":"6x9 mm","t":"25x6","n":"Nirvana 08/2025"},
+{"a":"112-19-001","s":"3 mm","t":"50x12","n":"Nirvana 08/2025"},
+{"a":"112-01-095","s":"5x6 mm","t":"30x6","n":"Nirvana 08/2025"},
+{"a":"112-29-805","s":"20x8 mm","t":"6x6","n":"Nirvana 08/2025"},
+{"a":"112-30-040","s":"19x12 mm","t":"6x6","n":"Nirvana 08/2025"},
+{"a":"112-19-803","s":"4 mm","t":"50x12 / 50x6","n":"50x12 podle Nirvana 08/2025 a 04/2026 (2208/ENG: 2 knots), 50x6 s 2 knots podle Nirvana 12/2024"},
+{"a":"112-19-001","s":"4 mm","t":"50x12","n":"Nirvana 04/2026"},
+{"a":"112-49-013","s":"4x8 mm","t":"25x6","n":"Nirvana 04/2026"},
+{"a":"112-49-004","s":"17 mm","t":"6x6","n":"Nirvana 04/2026"},
+{"a":"112-03-012","s":"14 mm","t":"10x6","n":"Flaming heart. Nirvana 04/2026"},
+{"a":"112-30-262","s":"11x8 mm","t":"15x6","n":"Nirvana 12/2024"},
+{"a":"ovalflat","s":"20x8 mm","t":"6x6","n":"Laser etched. Nirvana 03/2026"},
+{"a":"111-00-285","s":"5x8 mm","t":"25x6","n":"Nirvana 09/2025"},
+{"a":"112-hearts","s":"22 mm","t":"6x6","n":"Na faktuře jako HEARTS / 112-HEARTS, u jednoho řádku ručně připsáno 03-012. Nirvana 09/2025"},
+{"a":"shell","s":"15x18 mm","t":"8x6","n":"Na faktuře jako SHELL, totéž jako 112-03-002. Nirvana 09/2025"},
+{"a":"flamingheart","s":"14 mm","t":"10x6","n":"Totéž jako 112-03-012 (14 mm). Nirvana 11/2025"},
+{"a":"heishi","s":"3x6 mm","t":"50x12","n":"Totéž jako 112-49-013 (3x6 mm). Nirvana 08/2024"},
+{"a":"hawaiflower","s":"9 mm","t":"16x6","n":"Totéž jako 112-7582 (9 mm). Nirvana 09/2026"},
+{"a":"flamingheart","s":"22 mm","t":"6x6","n":"Totéž jako 112-03-012 (22 mm). Nirvana 08/2026"},
+{"a":"coinrose","s":"17 mm","t":"6x6","n":"Totéž jako 112-03-010 (17 mm)"},
+{"a":"111-7582","s":"10 mm","t":"12x10","n":"*návlek Lenka"}]</script>
+<main id="app"></main>
+<script id="page-script">
+(function(){
+const SRC = document.currentScript.textContent;
+const CSS = document.getElementById('page-style').textContent;
+let DATA = [];
+try { DATA = JSON.parse(document.getElementById('page-data').textContent) || []; } catch(e) { DATA = []; }
+
+const app = document.getElementById('app');
+let editMode = false, adding = false;
+
+const normA = s => (s||'').toLowerCase().replace(/[^0-9a-z]/g,'');
+const normS = s => (s||'').toLowerCase().replace(/mm/g,'').replace(/[×*]/g,'x').replace(/,/g,'.').replace(/\s+/g,'');
+const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function stringHtml(t){
+  const re = /^\s*(\d+)\s*[x×*]\s*(\d+)\s*$/i;
+  const parts = String(t||'').split('/').map(s=>s.trim()).filter(Boolean);
+  if(parts.length > 1){
+    return parts.map(p=>{ const m = re.exec(p); return m ? `${m[1]}&thinsp;×&thinsp;${m[2]}` : esc(p); }).join('<br>')
+      + '<small>Dvě varianty, viz poznámka</small>';
+  }
+  const m = re.exec(t||'');
+  if(!m) return esc(t);
+  return `${m[1]}&thinsp;×&thinsp;${m[2]}<small>${m[1]} ks na šňůrce, ${m[2]} šňůrek</small>`;
+}
+
+// stash inputs across reloads after publish
+let st = {};
+try { st = JSON.parse(sessionStorage.getItem('navlek-q')||'{}'); sessionStorage.removeItem('navlek-q'); } catch(e){}
+
+app.innerHTML = `
+  <h1>Návlek</h1>
+  <p class="sub">Zadej artikl, případně velikost.</p>
+  <div class="search">
+    <div><label for="qa">Artikl</label><input id="qa" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Zadej číslo nebo název artiklu" value="${esc(st.a||'')}"></div>
+    <div><label for="qs">Velikost</label><input id="qs" autocomplete="off" spellcheck="false" placeholder="Zadej velikost v mm" value="${esc(st.s||'')}"></div>
+  </div>
+  <div class="msg" id="status" role="status"></div>
+  <div id="results" aria-live="polite"></div>
+  <div id="addbox"></div>
+  <footer><span id="count"></span><span><button class="link" id="toggleAdd">Přidat záznam</button> &nbsp; <button class="link" id="toggleEdit">Upravit seznam</button> &nbsp; <button class="link" id="resetLocal" hidden>Zahodit moje změny</button></span></footer>`;
+
+const qa = document.getElementById('qa'), qs = document.getElementById('qs');
+const results = document.getElementById('results'), addbox = document.getElementById('addbox'), statusEl = document.getElementById('status');
+
+// Local layer: changes made by viewers who can't write the shared page stay on their own device
+const LKEY = 'navlek-local';
+let LOCAL = {add:[], hide:[]};
+try { const v = JSON.parse(localStorage.getItem(LKEY) || 'null'); if (v && Array.isArray(v.add) && Array.isArray(v.hide)) LOCAL = v; } catch(e) {}
+const key = r => normA(r.a) + '|' + normS(r.s);
+let localMode = false;
+function saveLocal(){ try { localStorage.setItem(LKEY, JSON.stringify(LOCAL)); return true; } catch(e) { return false; } }
+function hasLocal(){ return LOCAL.add.length > 0 || LOCAL.hide.length > 0; }
+function allData(){
+  const hidden = new Set(LOCAL.hide), localKeys = new Set(LOCAL.add.map(key));
+  return DATA.filter(r => !hidden.has(key(r)) && !localKeys.has(key(r)))
+    .concat(LOCAL.add.map(r => ({...r, local:true})));
+}
+function say(t){ statusEl.textContent = t; }
+
+function matches(){
+  const a = normA(qa.value), s = normS(qs.value);
+  if(!a && !s && !editMode) return null;
+  return allData().filter(r =>
+    (!a || normA(r.a).includes(a)) && (!s || normS(r.s) === s || normS(r.s).startsWith(s))
+  ).sort((x,y)=>x.a.localeCompare(y.a) || x.s.localeCompare(y.s,undefined,{numeric:true}));
+}
+
+function render(){
+  const list = matches(), n = allData().length;
+  document.getElementById('count').textContent = `${n} ${n===1?'záznam':n<5&&n>1?'záznamy':'záznamů'}`;
+  document.getElementById('toggleEdit').textContent = editMode ? 'Hotovo' : 'Upravit seznam';
+  const reset = document.getElementById('resetLocal');
+  reset.hidden = !hasLocal();
+  if(list === null){ results.innerHTML=''; renderAdd(); return; }
+  if(!list.length){
+    results.innerHTML = `<div class="empty"><p>Pro tuhle kombinaci zatím návlek nemám.</p><button class="ghost" id="addFromEmpty">Přidat záznam</button></div>`;
+    document.getElementById('addFromEmpty').onclick = ()=>{ adding=true; render(); };
+  } else {
+    const solo = list.length===1;
+    results.innerHTML = list.map(r=>{
+      const note = [r.n, r.local ? 'Uloženo jen v tomhle zařízení' : ''].filter(Boolean).join('. ');
+      return `
+      <div class="hit${solo?' solo':''}">
+        <div><div class="art">${esc(r.a)}</div><div class="size">${esc(r.s)}</div></div>
+        <div class="str">${stringHtml(r.t)}</div>
+        ${note?`<div class="note">${esc(note)}</div>`:''}
+        ${editMode?`<button class="link del" data-k="${esc(key(r))}">Smazat</button>`:''}
+      </div>`;}).join('');
+    results.querySelectorAll('.del').forEach(b=>b.onclick=()=>{
+      const r = allData().find(x => key(x) === b.dataset.k);
+      if(r && confirm(`Smazat ${r.a} (${r.s}) – ${r.t}?`)) removeRecord(r);
+    });
+  }
+  renderAdd();
+}
+
+function renderAdd(){
+  if(!adding){ addbox.innerHTML=''; return; }
+  if(addbox.firstChild) return;
+  addbox.innerHTML = `<div class="add">
+    <h2>Nový záznam</h2>
+    <div class="row"><div><label for="na">Artikl</label><input id="na" value="${esc(qa.value)}"></div>
+    <div><label for="ns">Velikost</label><input id="ns" value="${esc(qs.value)}" placeholder="6 mm"></div></div>
+    <div class="row"><div><label for="nt">Návlek</label><input id="nt" placeholder="30x10"></div>
+    <div><label for="nn">Poznámka</label><input id="nn" placeholder="nepovinné"></div></div>
+    <div class="actions"><button id="saveNew">Uložit</button><button class="ghost" id="cancelNew">Zrušit</button></div>
+    <div class="msg" id="addmsg"></div></div>`;
+  document.getElementById('cancelNew').onclick=()=>{adding=false;addbox.innerHTML='';};
+  document.getElementById('saveNew').onclick=()=>{
+    const a=document.getElementById('na').value.trim(), s=document.getElementById('ns').value.trim();
+    const t=document.getElementById('nt').value.trim().replace(/\s*[x×*]\s*/i,'x'), n=document.getElementById('nn').value.trim();
+    const msg=document.getElementById('addmsg');
+    if(!a||!s||!t){ msg.textContent='Vyplň artikl, velikost a návlek.'; return; }
+    const sz = /mm$/i.test(s) ? s : s+' mm';
+    const rec={a,s:sz,t}; if(n) rec.n=n;
+    const dup = allData().find(r=>key(r)===key(rec));
+    if(dup && !confirm(`${a} (${sz}) už má návlek ${dup.t}. Přepsat?`)) return;
+    addRecord(rec);
+  };
+}
+
+function addRecord(rec){
+  const next = DATA.filter(r => key(r) !== key(rec)).concat([rec]);
+  try{ sessionStorage.setItem('navlek-q',JSON.stringify({a:rec.a,s:rec.s})); }catch(e){}
+  commit(next, ()=>{
+    LOCAL.add = LOCAL.add.filter(r => key(r) !== key(rec)).concat([rec]);
+    LOCAL.hide = LOCAL.hide.filter(k => k !== key(rec));
+    qa.value = rec.a; qs.value = rec.s; adding = false; addbox.innerHTML = '';
+  }, 'Uloženo.');
+}
+
+function removeRecord(rec){
+  const k = key(rec);
+  const next = DATA.filter(r => key(r) !== k);
+  commit(next, ()=>{
+    LOCAL.add = LOCAL.add.filter(r => key(r) !== k);
+    if(DATA.some(r => key(r) === k) && !LOCAL.hide.includes(k)) LOCAL.hide.push(k);
+  }, 'Smazáno.');
+}
+
+const apiPromise = (window.claude && typeof window.claude.use === 'function')
+  ? window.claude.use('artifact').catch(()=>null) : Promise.resolve(null);
+const NO_WRITE = ['not_writer','not_granted','consent_required','capability_disabled','capability_removed','not_declared'];
+
+async function commit(nextShared, localOp, okText){
+  if(!localMode){
+    say('Ukládám…');
+    const api = await apiPromise;
+    if(api){
+      try { await api.publish(buildPage(nextShared)); say(okText); return; }
+      catch(e){
+        const c = e && e.code;
+        if(c === 'conflict'){ say(''); return; }
+        if(c === 'rate_limited'){ say('Moc rychle za sebou, zkus to za chvíli.'); return; }
+        if(!NO_WRITE.includes(c)){ say('Uložení se nepovedlo, zkus to znovu.'); return; }
+      }
+    }
+    localMode = true;
+  }
+  localOp();
+  if(saveLocal()) say(okText + ' Změna je uložená jen v tomhle zařízení.');
+  else say('Tenhle prohlížeč nedovolí nic uložit.');
+  render();
+}
+
+function buildPage(data){
+  const json = JSON.stringify(data,null,0).replace(/</g,'\\u003c').replace(/\},\{/g,'},\n{');
+  return `<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Návlek – Blažek</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style id="page-style">${CSS}</style>
+</head>
+<body>
+<script type="application/json" id="page-data">${json}<\/script>
+<main id="app"></main>
+<script id="page-script">${SRC}<\/script>
+</body>
+</html>`;
+}
+
+qa.addEventListener('input',()=>{ if(addbox.firstChild){ const na=document.getElementById('na'); if(na) na.value=qa.value; } render(); });
+qs.addEventListener('input',()=>{ if(addbox.firstChild){ const ns=document.getElementById('ns'); if(ns) ns.value=qs.value; } render(); });
+document.getElementById('toggleAdd').onclick=()=>{ adding=!adding; addbox.innerHTML=''; render(); if(adding){ const t=document.getElementById('nt'); t&&t.focus(); } };
+document.getElementById('toggleEdit').onclick=()=>{ editMode=!editMode; render(); };
+document.getElementById('resetLocal').onclick=()=>{ if(confirm('Vrátit seznam do společné podoby a zahodit změny z tohohle zařízení?')){ LOCAL={add:[],hide:[]}; try{ localStorage.removeItem(LKEY); }catch(e){} say('Změny zahozeny.'); render(); } };
+
+render();
+if(!st.a) qa.focus();
+
+})();
+</script>
+</body>
+</html>
